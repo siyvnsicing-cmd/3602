@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>360录屏 — 专业效率版</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config={theme:{extend:{colors:{deep:'#080B10',cyan:'#22D3EE',emerald:'#10B981',violet:'#8B5CF6'},fontFamily:{sans:['Inter','-apple-system','PingFang SC','system-ui','sans-serif']}}}};
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;background:#080B10;overflow-x:hidden;color:#fff}
+
+/* mesh bg */
+.mesh-layer{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.orb{position:absolute;border-radius:50%;filter:blur(100px)}
+.orb-1{width:600px;height:600px;background:rgba(34,211,238,.08);top:-12%;right:-6%}
+.orb-2{width:500px;height:500px;background:rgba(139,92,246,.06);bottom:-10%;left:-4%}
+.orb-3{width:350px;height:350px;background:rgba(34,211,238,.05);top:45%;left:40%}
+
+/* glass card base */
+.glass-card{background:rgba(255,255,255,.04);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.06);border-radius:20px;position:relative}
+.glass-card::before{content:'';position:absolute;inset:-1px;border-radius:20px;padding:1px;background:linear-gradient(135deg,rgba(34,211,238,.12),transparent 35%,transparent 65%,rgba(139,92,246,.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+
+/* glow text */
+.glow-text{background:linear-gradient(135deg,#fff 30%,rgba(255,255,255,.5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.glow-accent{background:linear-gradient(135deg,#22D3EE,#8B5CF6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* hero btn */
+.hero-btn{position:relative;display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#22D3EE,#8B5CF6);color:#080B10;font-weight:700;font-size:17px;padding:16px 40px;border-radius:14px;border:none;cursor:pointer;text-decoration:none;transition:transform .3s,box-shadow .3s;z-index:1}
+.hero-btn:hover{transform:scale(1.04);box-shadow:0 0 60px rgba(34,211,238,.25)}
+.hero-btn::before{content:'';position:absolute;inset:-2px;border-radius:16px;padding:2px;background:linear-gradient(135deg,#22D3EE,transparent 40%,transparent 60%,#8B5CF6);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:borderPulse 3s ease-in-out infinite}
+@keyframes borderPulse{0%,100%{opacity:.6}50%{opacity:1}}
+
+/* section label */
+.section-label{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:5px 14px;border-radius:8px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.12);color:#22D3EE}
+
+/* GIF showcase */
+.gif-card{background:rgba(255,255,255,.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:24px;position:relative;overflow:hidden}
+.gif-card::before{content:'';position:absolute;inset:-1px;border-radius:24px;padding:1px;background:linear-gradient(135deg,rgba(34,211,238,.12),transparent 35%,transparent 65%,rgba(139,92,246,.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.gif-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 12px;border-radius:8px;letter-spacing:.5px}
+.gif-number{font-size:48px;font-weight:900;letter-spacing:-2px;opacity:.08;position:absolute;top:12px;right:20px;line-height:1;pointer-events:none;color:#fff}
+
+/* GIF demo mockup */
+.gif-demo{width:100%;border-radius:14px;overflow:hidden;position:relative;aspect-ratio:16/9;background:rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center}
+.gif-demo-inner{position:absolute;inset:0;overflow:hidden;border-radius:14px}
+
+/* animated demo stripes */
+.anim-stripe{position:absolute;width:200%;height:2px;background:linear-gradient(90deg,transparent,rgba(34,211,238,.3),transparent);animation:stripeMove 2s linear infinite}
+@keyframes stripeMove{0%{transform:translateX(-50%)}100%{transform:translateX(0%)}}
+
+/* 小红书 card */
+.xhs-card{background:rgba(255,255,255,.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:20px;position:relative;overflow:hidden;padding:28px 24px}
+.xhs-card::before{content:'';position:absolute;inset:-1px;border-radius:20px;padding:1px;background:linear-gradient(135deg,rgba(34,211,238,.12),transparent 35%,transparent 65%,rgba(139,92,246,.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.xhs-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.xhs-avatar{width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;background:linear-gradient(135deg,#22D3EE,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#080B10}
+.xhs-info{flex:1;min-width:0}
+.xhs-name{font-size:13px;font-weight:600;color:#fff;line-height:1.3}
+.xhs-tag{font-size:10px;color:rgba(255,255,255,.3);display:flex;align-items:center;gap:6px;margin-top:1px}
+.xhs-time{font-size:10px;color:rgba(255,255,255,.2);white-space:nowrap}
+.xhs-content{font-size:14px;color:rgba(255,255,255,.7);line-height:1.7;margin-bottom:14px}
+.xhs-images{display:flex;gap:6px;margin-bottom:14px}
+.xhs-img{flex:1;aspect-ratio:1;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:9px;color:rgba(255,255,255,.12);overflow:hidden;position:relative}
+.xhs-img-inner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(255,255,255,.15)}
+.xhs-dots{display:flex;align-items:center;gap:5px;margin-bottom:14px}
+.xhs-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.12)}
+.xhs-dot.active{background:#22D3EE;width:16px;border-radius:3px}
+.xhs-footer{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid rgba(255,255,255,.05)}
+.xhs-like{display:flex;align-items:center;gap:4px;font-size:12px;color:rgba(255,255,255,.35)}
+.xhs-like svg{width:16px;height:16px;fill:none;stroke:rgba(255,255,255,.35);transition:all .25s}
+.xhs-like:hover svg{fill:#ef4444;stroke:#ef4444}
+
+/* cta */
+.cta-glow{background:rgba(255,255,255,.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.06);border-radius:28px;padding:60px 48px;position:relative;overflow:hidden;text-align:center}
+.cta-glow::before{content:'';position:absolute;inset:-1px;border-radius:28px;padding:1px;background:linear-gradient(135deg,rgba(34,211,238,.15),transparent 40%,transparent 60%,rgba(139,92,246,.12));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:#080B10}
+::-webkit-scrollbar-thumb{background:rgba(34,211,238,.25);border-radius:3px}
+
+/* hero image */
+.hero-img-wrap{width:100%;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.08);position:relative}
+.hero-img-wrap img{width:100%;height:auto;display:block}
+</style>
+</head>
+<body>
+
+<!-- mesh bg -->
+<div class="mesh-layer">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<nav class="fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-between px-6 lg:px-10" style="background:rgba(8,11,16,.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05)">
+    <div class="flex items-center gap-3">
+    <img src="./360图标2.webp" alt="360录屏" class="h-9 w-auto object-contain block" style="filter:brightness(1.2)">
+  </div>
+  <ul class="flex items-center gap-8 list-none">
+    <li class="hidden lg:block"><a href="#gif-showcase" class="text-sm" style="color:rgba(255,255,255,.5);text-decoration:none">功能演示</a></li>
+    <li class="hidden lg:block"><a href="#reviews" class="text-sm" style="color:rgba(255,255,255,.5);text-decoration:none">用户说</a></li>
+    <li><a href="#" onclick="alert('下载 360录屏 专业效率版')" class="text-sm font-semibold px-5 py-2 rounded-lg" style="background:linear-gradient(135deg,#22D3EE,#8B5CF6);color:#080B10;text-decoration:none">免费下载</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="min-h-screen flex items-center pt-24 pb-12 relative z-[1]">
+  <div class="w-full max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <!-- left text -->
+      <div>
+        <span class="section-label">官方出品</span>
+        <h1 class="text-[40px] lg:text-[56px] font-black leading-[1.1] tracking-[-2px] mt-6 glow-text">
+          提升演示效率的<br>超清录屏工作站
+        </h1>
+        <p class="text-base lg:text-lg mt-5 max-w-lg" style="color:rgba(255,255,255,.45);line-height:1.7">
+          4K/60帧极限画质，支持专属图文水印与智能背景。专为追求高质量输出的你打造。
+        </p>
+        <div class="flex flex-wrap items-center gap-4 mt-10">
+          <button class="hero-btn" onclick="alert('下载 360录屏 专业效率版')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            免费下载
+          </button>
+        </div>
+        <div class="flex items-center gap-6 mt-8">
+          <span class="text-xs" style="color:rgba(255,255,255,.55)">&#10003; WinAll</span>
+          <span class="text-xs" style="color:rgba(255,255,255,.55)">&#10003; 360安全认证</span>
+          <span class="text-xs" style="color:rgba(255,255,255,.55)">&#10003; 无广告纯净版</span>
+        </div>
+      </div>
+      <!-- right: 首图备选 -->
+      <div class="reveal hero-img-wrap">
+        <img src="./首图备选.png" alt="360录屏专业效率版">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== GIF SHOWCASE ===== -->
+<section id="gif-showcase" class="py-28 relative z-[1]">
+  <div class="w-full max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center reveal">
+      <span class="section-label">&#9654; 直观演示</span>
+      <h2 class="text-[34px] lg:text-[44px] font-extrabold tracking-[-1px] mt-4 glow-text">每一帧都是正片</h2>
+      <p class="mt-3 text-base" style="color:rgba(255,255,255,.35);max-width:500px;margin-left:auto;margin-right:auto;">对比看得见，好产品不需要解释</p>
+    </div>
+
+    <!-- ============================== -->
+    <!-- GIF 区块 1: 画质 — 左文右图   -->
+    <!-- ============================== -->
+    <div class="mt-20 reveal" style="border:1px solid rgba(34,211,238,.15);border-radius:28px;background:rgba(34,211,238,.02);padding:40px 36px;position:relative">
+      <div style="position:absolute;top:-13px;left:36px;background:#080B10;padding:0 12px;display:flex;align-items:center;gap:6px">
+        <span style="font-size:10px;color:#22D3EE;font-weight:700;letter-spacing:1.5px">01 极致画质</span>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div class="lg:col-span-5">
+          <h3 class="text-[28px] font-extrabold tracking-[-.5px] glow-text">4K 高清 &amp; 60 帧流畅度</h3>
+          <p class="mt-4 text-sm" style="color:rgba(255,255,255,.45);line-height:1.9">
+            <strong style="color:rgba(255,255,255,.6)">普通录屏</strong> → 拖影模糊，数字毛边，细节不可读<br>
+            <strong style="color:rgba(34,211,238,.9)">360 录屏</strong> → 4K @ 60fps 无压缩输出，像素级清晰
+          </p>
+          <ul class="mt-5 space-y-2.5 text-sm" style="color:rgba(255,255,255,.35)">
+            <li class="flex items-center gap-2"><span style="color:#22D3EE">&#10003;</span> HEVC/H.265 硬件编码，性能损耗 &lt;5%</li>
+            <li class="flex items-center gap-2"><span style="color:#22D3EE">&#10003;</span> 60FPS 无丢帧，报表数字清晰可读</li>
+            <li class="flex items-center gap-2"><span style="color:#22D3EE">&#10003;</span> 高码率输出，告别马赛克与毛边</li>
+          </ul>
+        </div>
+        <div class="lg:col-span-7">
+          <div style="border:2px solid rgba(34,211,238,.12);border-radius:18px;padding:8px;background:rgba(0,0,0,.25);position:relative">
+            <div style="display:flex;align-items:center;gap:6px;padding:6px 10px 10px">
+              <div style="width:8px;height:8px;border-radius:50%;background:#ef4444"></div>
+              <div style="width:8px;height:8px;border-radius:50%;background:#eab308"></div>
+              <div style="width:8px;height:8px;border-radius:50%;background:#22c55e"></div>
+              <span style="margin-left:8px;font-size:9px;color:rgba(255,255,255,.12)">GIF 演示 — 点击播放</span>
+            </div>
+            <div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center">
+              <img src="./对比图.png" alt="画质对比" style="width:100%;height:100%;object-fit:contain">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- GIF 区块 2: 水印 — 左图右文   -->
+    <!-- ============================== -->
+    <div class="mt-16 reveal" style="border:1px solid rgba(139,92,246,.15);border-radius:28px;background:rgba(139,92,246,.02);padding:40px 36px;position:relative">
+      <div style="position:absolute;top:-13px;right:36px;background:#080B10;padding:0 12px;display:flex;align-items:center;gap:6px">
+        <span style="font-size:10px;color:#8B5CF6;font-weight:700;letter-spacing:1.5px">02 品牌防盗</span>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div class="lg:col-span-7 order-last lg:order-first">
+          <div style="border:2px solid rgba(139,92,246,.12);border-radius:18px;padding:8px;background:rgba(0,0,0,.25);position:relative">
+            <div style="display:flex;align-items:center;gap:6px;padding:6px 10px 10px">
+              <div style="width:8px;height:8px;border-radius:50%;background:#ef4444"></div>
+              <div style="width:8px;height:8px;border-radius:50%;background:#eab308"></div>
+              <div style="width:8px;height:8px;border-radius:50%;background:#22c55e"></div>
+              <span style="margin-left:8px;font-size:9px;color:rgba(255,255,255,.12)">GIF 演示 — 拖拽上传 Logo</span>
+            </div>
+            <div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center">
+              <img src="./logo图.png" alt="水印演示" style="width:100%;height:100%;object-fit:contain">
+            </div>
+          </div>
+        </div>
+        <div class="lg:col-span-5 order-first lg:order-last">
+          <h3 class="text-[28px] font-extrabold tracking-[-.5px] glow-text">把品牌刻进每一秒</h3>
+          <p class="mt-4 text-sm" style="color:rgba(255,255,255,.45);line-height:1.9">
+            <strong style="color:rgba(255,255,255,.6)">拖拽上传</strong>公司 Logo 或个人头像，<strong style="color:rgba(255,255,255,.6)">实时调节</strong>透明度（10%–90%）、位置（四角/居中）。在多平台分发时水印随画面始终锁定。
+          </p>
+          <ul class="mt-5 space-y-2.5 text-sm" style="color:rgba(255,255,255,.35)">
+            <li class="flex items-center gap-2"><span style="color:#8B5CF6">&#10003;</span> 支持 PNG/JPEG 图片水印拖拽上传</li>
+            <li class="flex items-center gap-2"><span style="color:#8B5CF6">&#10003;</span> 透明度 0%–100% 精细调节，即时预览</li>
+            <li class="flex items-center gap-2"><span style="color:#8B5CF6">&#10003;</span> 四角 / 平铺 / 居中，多位置模式</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================== -->
+    <!-- GIF 区块 3: 选区 — 左文右图 -->
+    <!-- ============================== -->
+    <div class="mt-16 reveal" style="border:1px solid rgba(34,211,238,.15);border-radius:28px;background:rgba(34,211,238,.02);padding:40px 36px;position:relative">
+      <div style="position:absolute;top:-13px;left:36px;background:#080B10;padding:0 12px;display:flex;align-items:center;gap:6px">
+        <span style="font-size:10px;color:#22D3EE;font-weight:700;letter-spacing:1.5px">03 灵活选区</span>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        <div class="lg:col-span-5">
+          <h3 class="text-[28px] font-extrabold tracking-[-.5px] glow-text">随意拖拽，精准锁定</h3>
+          <p class="mt-4 text-sm" style="color:rgba(255,255,255,.45);line-height:1.9">
+            随意拖拽选框或精确输入像素，实时锁定录制区域（全屏 / 窗口 / 自定义）。在网课录制、软件演示时<strong style="color:rgba(255,255,255,.6)">自动屏蔽无关干扰</strong>。
+          </p>
+          <ul class="mt-5 space-y-2.5 text-sm" style="color:rgba(255,255,255,.35)">
+            <li class="flex items-center gap-2"><span style="color:#22D3EE">&#10003;</span> 任意比例 / 特定窗口自由选定</li>
+            <li class="flex items-center gap-2"><span style="color:#22D3EE">&#10003;</span> 像素级边框精细微调，即时预览</li>
+            <li class="flex items-center gap-2"><span style="color:#22D3EE">&#10003;</span> 智能识别录制区域，自动隐藏桌面通知与无关软件</li>
+          </ul>
+        </div>
+        <div class="lg:col-span-7">
+          <div style="border:2px solid rgba(34,211,238,.12);border-radius:18px;padding:8px;background:rgba(0,0,0,.25);position:relative">
+            <div style="display:flex;align-items:center;gap:6px;padding:6px 10px 10px">
+              <div style="width:8px;height:8px;border-radius:50%;background:#ef4444"></div>
+              <div style="width:8px;height:8px;border-radius:50%;background:#eab308"></div>
+              <div style="width:8px;height:8px;border-radius:50%;background:#22c55e"></div>
+              <span style="margin-left:8px;font-size:9px;color:rgba(255,255,255,.12)">GIF 演示 — 拖拽选定录制区域</span>
+            </div>
+            <div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center">
+              <img src="./随意拖拽.png" alt="选区演示" style="width:100%;height:100%;object-fit:contain">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ===== SOCIAL PROOF ===== -->
+<section id="reviews" class="py-28 relative z-[1]">
+  <div class="w-full max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="text-center reveal">
+      <span class="section-label">&#128172; 达人种草</span>
+      <h2 class="text-[34px] lg:text-[44px] font-extrabold tracking-[-1px] mt-4 glow-text">用过的人都在说</h2>
+      <p class="mt-3 text-base" style="color:rgba(255,255,255,.35);max-width:500px;margin-left:auto;margin-right:auto;">来看看大家在小红书上的真实分享</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14 max-w-5xl mx-auto">
+      <div class="xhs-card reveal">
+        <div class="xhs-header">
+          <img class="xhs-avatar" src="./胖.png" alt="IT胖丁">
+          <div class="xhs-info">
+            <div class="xhs-name">IT胖丁 <span style="font-size:10px;color:#22D3EE;font-weight:400;margin-left:4px">&#10003;</span></div>
+            <div class="xhs-tag">系统架构师 <span style="color:rgba(255,255,255,.12)">·</span> <span class="xhs-time">2小时前</span></div>
+          </div>
+          <span style="font-size:18px;color:rgba(255,255,255,.1);cursor:pointer">&#8942;</span>
+        </div>
+
+        <div class="xhs-content">
+          录了一周的系统教程，学员总说报表数字看不清。换了 360 录屏之后，4K 导出直接扔 B 站，弹幕再也没人刷「糊了」。
+        </div>
+
+        <div class="xhs-images">
+          <div class="xhs-img" style="background:linear-gradient(135deg,rgba(34,211,238,.03),rgba(139,92,246,.03));border-color:rgba(255,255,255,.04)">
+            <div class="xhs-img-inner">
+              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#128202;</span> 报表对比</span>
+            </div>
+          </div>
+          <div class="xhs-img" style="background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.04)">
+            <div class="xhs-img-inner">
+              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#127916;</span> 4K 参数</span>
+            </div>
+          </div>
+          <div class="xhs-img" style="background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.04)">
+            <div class="xhs-img-inner">
+              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#128172;</span> 弹幕反馈</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="xhs-dots">
+          <div class="xhs-dot active"></div>
+          <div class="xhs-dot"></div>
+          <div class="xhs-dot"></div>
+        </div>
+
+        <div class="xhs-footer">
+          <div class="xhs-like">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span>328</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px">
+            <span style="font-size:12px;color:rgba(255,255,255,.2)">&#128172; 45</span>
+            <span style="font-size:12px;color:rgba(255,255,255,.2)">&#128257; 89</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="xhs-card reveal" style="transition-delay:.15s">
+        <div class="xhs-header">
+          <img class="xhs-avatar" src="./瘦.png" alt="小鹿要毕业">
+          <div class="xhs-info">
+            <div class="xhs-name">小鹿要毕业 <span style="font-size:10px;color:#22D3EE;font-weight:400;margin-left:4px">&#10003;</span></div>
+            <div class="xhs-tag">研二 · 远程办公 <span style="color:rgba(255,255,255,.12)">·</span> <span class="xhs-time">昨天 21:10</span></div>
+          </div>
+          <span style="font-size:18px;color:rgba(255,255,255,.1);cursor:pointer">&#8942;</span>
+        </div>
+
+        <div class="xhs-content">
+          录网课需要只录课件区域，又不想桌面太单调。360录屏的区域录制太方便了，框选好课件范围，录屏只录那个区域，桌面通知也不会弹出来。再加个纯色背景，整个视频看起来就很专业，完全不像是在家录的👍
+        </div>
+
+        <div class="xhs-images">
+          <div class="xhs-img" style="background:linear-gradient(135deg,rgba(34,211,238,.03),rgba(139,92,246,.03));border-color:rgba(255,255,255,.04)">
+            <div class="xhs-img-inner">
+              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#127916;</span> 选区录制</span>
+            </div>
+          </div>
+          <div class="xhs-img" style="background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.04)">
+            <div class="xhs-img-inner">
+              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#127912;</span> 添加背景</span>
+            </div>
+          </div>
+          <div class="xhs-img" style="background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.04)">
+            <div class="xhs-img-inner">
+              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#9989;</span> 成片效果</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="xhs-dots">
+          <div class="xhs-dot active"></div>
+          <div class="xhs-dot"></div>
+          <div class="xhs-dot"></div>
+        </div>
+
+        <div class="xhs-footer">
+          <div class="xhs-like">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <span>571</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:16px">
+            <span style="font-size:12px;color:rgba(255,255,255,.2)">&#128172; 103</span>
+            <span style="font-size:12px;color:rgba(255,255,255,.2)">&#128257; 216</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FINAL CTA ===== -->
+<section class="pb-28 relative z-[1]">
+  <div class="w-full max-w-5xl mx-auto px-6 lg:px-10">
+    <div class="cta-glow reveal">
+      <h2 class="text-[32px] lg:text-[42px] font-extrabold tracking-[-.8px] glow-text">现在下载，立即解锁<br class="sm:hidden">你的高效录制工作流</h2>
+      <p class="mt-4 text-base" style="color:rgba(255,255,255,.45);">不再被画质和后期绑架，每一次录制就是最终交付。</p>
+      <div class="mt-8 flex flex-col items-center gap-3">
+        <button class="hero-btn" onclick="alert('下载 360录屏 专业效率版')" style="font-size:16px;padding:16px 36px">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          免费下载 · 专业效率版
+        </button>
+        <span class="text-xs" style="color:rgba(255,255,255,.15);letter-spacing:.5px">&#10003; 安装即用 · 畅享 4K 超清 · 7 天无理由退款</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="text-center py-8 text-xs relative z-[1]" style="color:rgba(255,255,255,.12);border-top:1px solid rgba(255,255,255,.04)">
+  360录屏 &copy; 2026 &nbsp;·&nbsp; 本页面为产品展示用途
+</footer>
+
+<!-- ===== GSAP ===== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// --- Reveal observer ---
+const revObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: .1, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+// --- Hero fade-in ---
+gsap.from('.hero-btn', { opacity: 0, y: 20, duration: .8, delay: .3, ease: 'power2.out' });
+gsap.from('h1', { opacity: 0, y: 30, duration: 1, delay: .1, ease: 'power2.out' });
+gsap.from('.hero-img-wrap', { opacity: 0, x: 40, duration: 1, delay: .2, ease: 'power2.out' });
+
+// --- GIF cards staggered reveal on scroll ---
+gsap.utils.toArray('.gif-card').forEach((card, i) => {
+  gsap.from(card, {
+    scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' },
+    opacity: 0, y: 60, duration: .9, delay: i * .1, ease: 'power3.out'
+  });
+});
+
+// --- Sweep animation keyframe ---
+const styleSheet = document.createElement('style');
+styleSheet.textContent = `
+  @keyframes sweep {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  @keyframes dragHint {
+    0%, 100% { transform: translateY(0); opacity: .25; }
+    50% { transform: translateY(-6px); opacity: .5; }
+  }
+`;
+document.head.appendChild(styleSheet);
+
+// --- Refresh on resize ---
+window.addEventListener('resize', () => ScrollTrigger.refresh());
+</script>
+
+</body>
+</html>
