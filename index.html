@@ -85,18 +85,9 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
 ::-webkit-scrollbar-track{background:#080B10}
 ::-webkit-scrollbar-thumb{background:rgba(34,211,238,.25);border-radius:3px}
 
-/* mockup panel */
-.mockup-panel{width:100%;max-width:700px;margin:0 auto;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);position:relative}
-.mockup-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.06)}
-.mockup-dot{width:10px;height:10px;border-radius:50%}
-.mockup-dot.r{background:#ef4444}
-.mockup-dot.y{background:#eab308}
-.mockup-dot.g{background:#22c55e}
-.mockup-body{padding:20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.mockup-field{background:rgba(255,255,255,.04);border-radius:10px;padding:14px 16px;border:1px solid rgba(255,255,255,.06)}
-.mockup-label{font-size:10px;color:rgba(255,255,255,.2);letter-spacing:.5px;margin-bottom:6px;text-transform:uppercase}
-.mockup-value{font-size:13px;color:rgba(255,255,255,.6);display:flex;align-items:center;gap:8px}
-.mockup-tag{font-size:9px;padding:2px 8px;border-radius:4px;background:rgba(34,211,238,.1);color:#22D3EE;border:1px solid rgba(34,211,238,.15)}
+/* hero image */
+.hero-img-wrap{width:100%;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.08);position:relative}
+.hero-img-wrap img{width:100%;height:auto;display:block}
 </style>
 </head>
 <body>
@@ -111,7 +102,7 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
 <!-- ===== NAVBAR ===== -->
 <nav class="fixed top-0 left-0 right-0 z-50 h-16 flex items-center justify-between px-6 lg:px-10" style="background:rgba(8,11,16,.6);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.05)">
     <div class="flex items-center gap-3">
-    <img src="./360图标.png" alt="360录屏" class="h-9 w-auto object-contain block" style="filter:brightness(1.2)">
+    <img src="./360图标2.webp" alt="360录屏" class="h-9 w-auto object-contain block" style="filter:brightness(1.2)">
   </div>
   <ul class="flex items-center gap-8 list-none">
     <li class="hidden lg:block"><a href="#gif-showcase" class="text-sm" style="color:rgba(255,255,255,.5);text-decoration:none">功能演示</a></li>
@@ -126,9 +117,10 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
       <!-- left text -->
       <div>
-        <span class="section-label">官方出品</span>
+        <span class="section-label">360官方出品</span>
         <h1 class="text-[40px] lg:text-[56px] font-black leading-[1.1] tracking-[-2px] mt-6 glow-text">
-          提升演示效率的<br>超清录屏工作站
+          360录屏<br>
+          <span class="text-[22px] lg:text-[30px] font-bold">提升演示效率的超清工作站</span>
         </h1>
         <p class="text-base lg:text-lg mt-5 max-w-lg" style="color:rgba(255,255,255,.45);line-height:1.7">
           4K/60帧极限画质，支持专属图文水印与智能背景。专为追求高质量输出的你打造。
@@ -145,137 +137,9 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
           <span class="text-xs" style="color:rgba(255,255,255,.55)">&#10003; 无广告纯净版</span>
         </div>
       </div>
-      <!-- right mockup: 全展开面板 -->
-      <div class="reveal">
-        <div class="mockup-panel">
-          <!-- title bar -->
-          <div class="mockup-bar">
-            <div class="mockup-dot r"></div>
-            <div class="mockup-dot y"></div>
-            <div class="mockup-dot g"></div>
-            <span style="margin-left:12px;font-size:10px;color:rgba(255,255,255,.15);font-weight:500">360录屏 Pro — 专业效率版</span>
-          </div>
-          <!-- 三栏展开布局 -->
-          <div style="display:grid;grid-template-columns:48px 1fr 280px;min-height:380px">
-            <!-- 左侧工具栏 -->
-            <div style="background:rgba(255,255,255,.02);border-right:1px solid rgba(255,255,255,.06);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:16px">
-              <div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#22D3EE,#8B5CF6);display:flex;align-items:center;justify-content:center;font-size:11px;color:#080B10;font-weight:700">&#9654;</div>
-              <div style="width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.25)">&#9632;</div>
-              <div style="width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.25)">&#9678;</div>
-              <div style="width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(255,255,255,.25)">&#9881;</div>
-            </div>
-            <!-- 中间：预览区 -->
-            <div style="display:flex;flex-direction:column;padding:16px;gap:12px">
-              <div style="flex:1;background:rgba(0,0,0,.25);border-radius:10px;border:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;min-height:180px">
-                <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-                  <div style="width:48px;height:48px;border:2px dashed rgba(255,255,255,.08);border-radius:12px;display:flex;align-items:center;justify-content:center">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
-                  </div>
-                  <span style="font-size:10px;color:rgba(255,255,255,.08)">录屏画面预览</span>
-                </div>
-                <!-- 预览区水印示意 -->
-                <div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,.45);padding:3px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:6px">
-                  <span style="font-size:9px;font-weight:600;color:rgba(255,255,255,.35);letter-spacing:.3px">LOGO</span>
-                  <span style="font-size:8px;color:rgba(255,255,255,.15)">70%</span>
-                </div>
-              </div>
-              <!-- 底部时间轴 -->
-              <div style="display:flex;align-items:center;gap:8px">
-                <span style="font-size:9px;color:rgba(255,255,255,.15);min-width:36px">00:12</span>
-                <div style="flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden">
-                  <div style="width:35%;height:100%;background:linear-gradient(90deg,#22D3EE,#8B5CF6);border-radius:2px"></div>
-                </div>
-                <span style="font-size:9px;color:rgba(255,255,255,.15);min-width:36px;text-align:right">03:28</span>
-              </div>
-            </div>
-            <!-- 右侧：参数面板（重点：水印 + 背景） -->
-            <div style="background:rgba(255,255,255,.02);border-left:1px solid rgba(255,255,255,.06);padding:16px;display:flex;flex-direction:column;gap:14px">
-              <div style="display:flex;align-items:center;justify-content:space-between">
-                <span style="font-size:10px;font-weight:600;color:rgba(255,255,255,.25);letter-spacing:.8px;text-transform:uppercase">参数调节</span>
-                <span style="font-size:9px;padding:2px 8px;border-radius:4px;background:rgba(34,211,238,.1);color:#22D3EE;border:1px solid rgba(34,211,238,.15)">展开</span>
-              </div>
-
-              <!-- 水印设置区块（重点突出） -->
-              <div style="background:rgba(34,211,238,.04);border:1px solid rgba(34,211,238,.1);border-radius:10px;padding:12px">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-                  <span style="font-size:10px;color:#22D3EE">&#9679;</span>
-                  <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.7)">水印设置</span>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:6px">
-                  <div style="display:flex;align-items:center;justify-content:space-between">
-                    <span style="font-size:10px;color:rgba(255,255,255,.3)">上传图片</span>
-                    <span style="font-size:9px;padding:2px 8px;border-radius:4px;background:rgba(34,211,238,.08);color:#22D3EE;border:1px solid rgba(34,211,238,.12)">选择文件</span>
-                  </div>
-                  <div style="display:flex;align-items:center;gap:6px">
-                    <span style="font-size:10px;color:rgba(255,255,255,.3);min-width:50px">透明度</span>
-                    <div style="flex:1;height:4px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden">
-                      <div style="width:70%;height:100%;background:linear-gradient(90deg,#22D3EE,#8B5CF6);border-radius:2px"></div>
-                    </div>
-                    <span style="font-size:9px;color:rgba(255,255,255,.25);min-width:28px;text-align:right">70%</span>
-                  </div>
-                  <div style="display:flex;align-items:center;gap:6px">
-                    <span style="font-size:10px;color:rgba(255,255,255,.3);min-width:50px">位置</span>
-                    <div style="display:flex;gap:4px">
-                      <span style="font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.2)">左上</span>
-                      <span style="font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.15);color:#22D3EE">右下</span>
-                      <span style="font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.2)">居中</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 智能背景区块（重点突出） -->
-              <div style="background:rgba(139,92,246,.04);border:1px solid rgba(139,92,246,.1);border-radius:10px;padding:12px">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-                  <span style="font-size:10px;color:#8B5CF6">&#9679;</span>
-                  <span style="font-size:11px;font-weight:600;color:rgba(255,255,255,.7)">智能背景</span>
-                  <span style="margin-left:auto;font-size:8px;padding:1px 6px;border-radius:3px;background:rgba(139,92,246,.12);color:#8B5CF6;border:1px solid rgba(139,92,246,.15)">AI 实时</span>
-                </div>
-                <div style="display:flex;flex-direction:column;gap:6px">
-                  <div style="display:flex;align-items:center;gap:6px">
-                    <span style="font-size:10px;color:rgba(255,255,255,.3);min-width:50px">模式</span>
-                    <div style="display:flex;gap:4px">
-                      <span style="font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.15);color:#8B5CF6">纯色</span>
-                      <span style="font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.2)">图片</span>
-                      <span style="font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.2)">模糊</span>
-                    </div>
-                  </div>
-                  <div style="display:flex;align-items:center;gap:6px">
-                    <span style="font-size:10px;color:rgba(255,255,255,.3);min-width:50px">颜色</span>
-                    <div style="display:flex;align-items:center;gap:4px;flex:1">
-                      <div style="width:18px;height:18px;border-radius:4px;background:#fff;border:1px solid rgba(255,255,255,.1);cursor:pointer"></div>
-                      <div style="width:18px;height:18px;border-radius:4px;background:#E8E8E8;border:1px solid rgba(255,255,255,.1);cursor:pointer"></div>
-                      <div style="width:18px;height:18px;border-radius:4px;background:#D4E6FF;border:1px solid rgba(255,255,255,.1);cursor:pointer"></div>
-                      <div style="width:18px;height:18px;border-radius:4px;background:#E0F0E8;border:1px solid rgba(255,255,255,.1);cursor:pointer"></div>
-                      <div style="width:18px;height:18px;border-radius:4px;background:rgba(255,255,255,.06);border:1px dashed rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer">
-                        <span style="font-size:10px;color:rgba(255,255,255,.15)">+</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div style="display:flex;align-items:center;gap:6px">
-                    <div style="font-size:10px;color:rgba(255,255,255,.3);min-width:50px">边缘</div>
-                    <div style="flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden">
-                      <div style="width:65%;height:100%;background:linear-gradient(90deg,#8B5CF6,#22D3EE);border-radius:2px"></div>
-                    </div>
-                    <span style="font-size:9px;color:rgba(255,255,255,.2)">自然</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 输出参数 -->
-              <div style="border-top:1px solid rgba(255,255,255,.04);padding-top:10px;display:flex;flex-direction:column;gap:6px">
-                <div style="display:flex;align-items:center;justify-content:space-between">
-                  <span style="font-size:9px;color:rgba(255,255,255,.2)">输出</span>
-                  <span style="font-size:9px;color:rgba(255,255,255,.35)">4K · 60FPS</span>
-                </div>
-                <div style="display:flex;align-items:center;justify-content:space-between">
-                  <span style="font-size:9px;color:rgba(255,255,255,.2)">编码</span>
-                  <span style="font-size:9px;color:rgba(255,255,255,.35)">HEVC H.265</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- right: 首图备选 -->
+      <div class="reveal hero-img-wrap">
+        <img src="./首图备选.png" alt="360录屏专业效率版">
       </div>
     </div>
   </div>
@@ -298,7 +162,6 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
         <span style="font-size:10px;color:#22D3EE;font-weight:700;letter-spacing:1.5px">01 极致画质</span>
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-        <!-- 左侧文字 -->
         <div class="lg:col-span-5">
           <h3 class="text-[28px] font-extrabold tracking-[-.5px] glow-text">4K 高清 &amp; 60 帧流畅度</h3>
           <p class="mt-4 text-sm" style="color:rgba(255,255,255,.45);line-height:1.9">
@@ -311,17 +174,14 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
             <li class="flex items-center gap-2"><span style="color:#22D3EE">&#10003;</span> 高码率输出，告别马赛克与毛边</li>
           </ul>
         </div>
-        <!-- 右侧 GIF 框（大尺寸带边框） -->
         <div class="lg:col-span-7">
           <div style="border:2px solid rgba(34,211,238,.12);border-radius:18px;padding:8px;background:rgba(0,0,0,.25);position:relative">
-            <!-- 顶部状态条 -->
             <div style="display:flex;align-items:center;gap:6px;padding:6px 10px 10px">
               <div style="width:8px;height:8px;border-radius:50%;background:#ef4444"></div>
               <div style="width:8px;height:8px;border-radius:50%;background:#eab308"></div>
               <div style="width:8px;height:8px;border-radius:50%;background:#22c55e"></div>
               <span style="margin-left:8px;font-size:9px;color:rgba(255,255,255,.12)">GIF 演示 — 点击播放</span>
             </div>
-            <!-- 对比画面 → 替换为对比图.png -->
             <div style="border-radius:12px;overflow:hidden;aspect-ratio:16/9;background:rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center">
               <img src="./对比图.png" alt="画质对比" style="width:100%;height:100%;object-fit:contain">
             </div>
@@ -338,7 +198,6 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
         <span style="font-size:10px;color:#8B5CF6;font-weight:700;letter-spacing:1.5px">02 品牌防盗</span>
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-        <!-- 左侧 GIF 框 -->
         <div class="lg:col-span-7 order-last lg:order-first">
           <div style="border:2px solid rgba(139,92,246,.12);border-radius:18px;padding:8px;background:rgba(0,0,0,.25);position:relative">
             <div style="display:flex;align-items:center;gap:6px;padding:6px 10px 10px">
@@ -352,7 +211,6 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
             </div>
           </div>
         </div>
-        <!-- 右侧文字 -->
         <div class="lg:col-span-5 order-first lg:order-last">
           <h3 class="text-[28px] font-extrabold tracking-[-.5px] glow-text">把品牌刻进每一秒</h3>
           <p class="mt-4 text-sm" style="color:rgba(255,255,255,.45);line-height:1.9">
@@ -375,7 +233,6 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
         <span style="font-size:10px;color:#22D3EE;font-weight:700;letter-spacing:1.5px">03 灵活选区</span>
       </div>
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-        <!-- 左侧文字 -->
         <div class="lg:col-span-5">
           <h3 class="text-[28px] font-extrabold tracking-[-.5px] glow-text">随意拖拽，精准锁定</h3>
           <p class="mt-4 text-sm" style="color:rgba(255,255,255,.45);line-height:1.9">
@@ -387,7 +244,6 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
             <li class="flex items-center gap-2"><span style="color:#22D3EE">&#10003;</span> 智能识别录制区域，自动隐藏桌面通知与无关软件</li>
           </ul>
         </div>
-        <!-- 右侧 GIF 框 -->
         <div class="lg:col-span-7">
           <div style="border:2px solid rgba(34,211,238,.12);border-radius:18px;padding:8px;background:rgba(0,0,0,.25);position:relative">
             <div style="display:flex;align-items:center;gap:6px;padding:6px 10px 10px">
@@ -417,7 +273,6 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-14 max-w-5xl mx-auto">
-      <!-- 案例 1: @IT胖丁 -->
       <div class="xhs-card reveal">
         <div class="xhs-header">
           <img class="xhs-avatar" src="./胖.png" alt="IT胖丁">
@@ -433,20 +288,8 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
         </div>
 
         <div class="xhs-images">
-          <div class="xhs-img" style="background:linear-gradient(135deg,rgba(34,211,238,.03),rgba(139,92,246,.03));border-color:rgba(255,255,255,.04)">
-            <div class="xhs-img-inner">
-              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#128202;</span> 报表对比</span>
-            </div>
-          </div>
-          <div class="xhs-img" style="background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.04)">
-            <div class="xhs-img-inner">
-              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#127916;</span> 4K 参数</span>
-            </div>
-          </div>
-          <div class="xhs-img" style="background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.04)">
-            <div class="xhs-img-inner">
-              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#128172;</span> 弹幕反馈</span>
-            </div>
+          <div class="xhs-img" style="background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.04)">
+            <img src="./压缩视频.png" alt="压缩视频" style="width:100%;height:100%;object-fit:contain">
           </div>
         </div>
 
@@ -468,7 +311,6 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
         </div>
       </div>
 
-      <!-- 案例 2: @小鹿要毕业 -->
       <div class="xhs-card reveal" style="transition-delay:.15s">
         <div class="xhs-header">
           <img class="xhs-avatar" src="./瘦.png" alt="小鹿要毕业">
@@ -484,20 +326,8 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
         </div>
 
         <div class="xhs-images">
-          <div class="xhs-img" style="background:linear-gradient(135deg,rgba(34,211,238,.03),rgba(139,92,246,.03));border-color:rgba(255,255,255,.04)">
-            <div class="xhs-img-inner">
-              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#127916;</span> 选区录制</span>
-            </div>
-          </div>
-          <div class="xhs-img" style="background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.04)">
-            <div class="xhs-img-inner">
-              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#127912;</span> 添加背景</span>
-            </div>
-          </div>
-          <div class="xhs-img" style="background:rgba(255,255,255,.02);border-color:rgba(255,255,255,.04)">
-            <div class="xhs-img-inner">
-              <span style="display:flex;flex-direction:column;align-items:center;gap:4px"><span style="font-size:16px">&#9989;</span> 成片效果</span>
-            </div>
+          <div class="xhs-img" style="background:rgba(0,0,0,.2);border-color:rgba(255,255,255,.04)">
+            <img src="./首页图.png" alt="首页图" style="width:100%;height:100%;object-fit:contain">
           </div>
         </div>
 
@@ -531,7 +361,7 @@ body{font-family:'Inter',-apple-system,'PingFang SC',system-ui,sans-serif;backgr
       <div class="mt-8 flex flex-col items-center gap-3">
         <button class="hero-btn" onclick="alert('下载 360录屏 专业效率版')" style="font-size:16px;padding:16px 36px">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          免费下载 · 专业效率版
+          免费下载
         </button>
         <span class="text-xs" style="color:rgba(255,255,255,.15);letter-spacing:.5px">&#10003; 安装即用 · 畅享 4K 超清 · 7 天无理由退款</span>
       </div>
@@ -559,7 +389,7 @@ document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
 // --- Hero fade-in ---
 gsap.from('.hero-btn', { opacity: 0, y: 20, duration: .8, delay: .3, ease: 'power2.out' });
 gsap.from('h1', { opacity: 0, y: 30, duration: 1, delay: .1, ease: 'power2.out' });
-gsap.from('.mockup-panel', { opacity: 0, x: 40, duration: 1, delay: .2, ease: 'power2.out' });
+gsap.from('.hero-img-wrap', { opacity: 0, x: 40, duration: 1, delay: .2, ease: 'power2.out' });
 
 // --- GIF cards staggered reveal on scroll ---
 gsap.utils.toArray('.gif-card').forEach((card, i) => {
@@ -568,14 +398,6 @@ gsap.utils.toArray('.gif-card').forEach((card, i) => {
     opacity: 0, y: 60, duration: .9, delay: i * .1, ease: 'power3.out'
   });
 });
-
-// --- watermark drag hint animation ---
-const dragEl = document.getElementById('watermarkDrag');
-if (dragEl) {
-  gsap.to(dragEl, {
-    y: -6, opacity: .4, duration: 1.5, repeat: -1, yoyo: true, ease: 'power1.inOut'
-  });
-}
 
 // --- Sweep animation keyframe ---
 const styleSheet = document.createElement('style');
